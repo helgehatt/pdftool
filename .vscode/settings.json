@@ -1,0 +1,18 @@
+{
+    "flake8.args": [
+        // Allow unused imports in __init__.py files
+        "--per-file-ignores=__init__.py:F401",
+        // E203: Whitespace is handled by Black
+        // E501: Line length is handled by Black
+        // W503: Line break is handled by Black
+        "--extend-ignore=E203,E501,W503",
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.rulers": [88],
+    },
+}
