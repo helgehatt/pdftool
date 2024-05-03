@@ -31,8 +31,14 @@ def click_option_dry_run(func):
 @cli.command()
 @click_option_filename
 @click_option_dry_run
+@click.option(
+    "--sort",
+    is_flag=True,
+    default=False,
+    help="Whether to sort files by name before merging.",
+)
 @click.argument("files", nargs=-1, type=click.Path())
-def merge(filename: str, dry_run: bool, files: tuple[str]):
+def merge(filename: str, dry_run: bool, sort: bool, files: tuple[str]):
     class BadFilesParameter(click.BadParameter):
         def __init__(self, message: str):
             super().__init__(message, None, None, "'[FILES]...'")
@@ -47,6 +53,9 @@ def merge(filename: str, dry_run: bool, files: tuple[str]):
 
     if filename is None:
         filename = _append_filename(files[0], "merged")
+
+    if sort:
+        files = sorted(files)
 
     if dry_run:
         click.echo(f"Merge the following files and save as '{filename}':")
