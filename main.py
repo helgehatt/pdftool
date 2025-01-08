@@ -63,7 +63,7 @@ def merge(filename: str, dry_run: bool, sort: bool, files: tuple[str]):
             click.echo(f)
         return
 
-    merger = pypdf.PdfMerger()
+    merger = pypdf.PdfWriter()
     for f in files:
         merger.append(f)
     merger.write(filename)
