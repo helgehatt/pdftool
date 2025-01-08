@@ -51,11 +51,11 @@ def merge(filename: str, dry_run: bool, sort: bool, files: tuple[str]):
     if not len(files):
         raise BadFilesParameter("No existing files matched.")
 
+    if sort:
+        files = _sort_filenames(files)
+
     if filename is None:
         filename = _append_filename(files[0], "merged")
-
-    if sort:
-        files = sorted(files)
 
     if dry_run:
         click.echo(f"Merge the following files and save as '{filename}':")
@@ -142,6 +142,12 @@ def split(filename: str, dry_run: bool, file: str):
 def _append_filename(filename: str, text_to_append: str):
     name, ext = filename.rsplit(sep=".", maxsplit=1)
     return f"{name}-{text_to_append}.{ext}"
+
+
+def _sort_filenames(filenames: list[str]):
+    from natsort import os_sorted
+
+    return os_sorted(filenames)
 
 
 if __name__ == "__main__":
